@@ -31,6 +31,7 @@ const controls = new Controls(controlsContainer, logo);
 ### options.vertexShader
 
 - _default:_
+
   ```c
   attribute float a_Size;
   attribute float a_Alpha;
@@ -46,6 +47,7 @@ const controls = new Controls(controlsContainer, logo);
 ### options.fragmentShader
 
 - _default:_
+
   ```c
   uniform sampler2D u_Texture;
   varying float v_Alpha;
