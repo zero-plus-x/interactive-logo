@@ -3,9 +3,7 @@ import plugins from 'gulp-load-plugins';
 
 const $$ = plugins();
 
-// import buffer from 'vinyl-buffer';
 import del from 'del';
-// import source from 'vinyl-source-stream';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 
@@ -86,6 +84,18 @@ gulp.task('lint:template', function() {
         message: err.message
       }))
     }))
-    .pipe($$.cached('lint:template'))
-    .pipe($$.html5Lint());
+    .pipe($$.cached('lint:template'));
+
+    /*
+    temporarly disabled html5Lint, because bumping into the following error:
+
+    /node_modules/gulp-html5-lint/lib/gulp-html5-lint.js:59
+      _.forEach(results.messages, function(msg) {
+                                 ^
+      TypeError: Cannot read property 'messages' of undefined
+
+    they seem to fix it in https://github.com/LiveSafe/gulp-html5-lint/issues/4
+    but it still repdoducable with the latest version — needs investigation TODO
+    */
+    // .pipe($$.html5Lint());
 });

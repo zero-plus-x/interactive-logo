@@ -6,6 +6,25 @@ import {randomRange} from './utils';
 
 class Logo {
   constructor(element, {
+    vertexShader = `
+      attribute float a_Size;
+      attribute float a_Alpha;
+      varying float v_Alpha;
+      void main() {
+        v_Alpha = a_Alpha;
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        gl_PointSize = a_Size;
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `,
+    fragmentShader = `
+      uniform sampler2D u_Texture;
+      varying float v_Alpha;
+      void main() {
+        vec4 color = vec4(1.0, 1.0, 1.0, v_Alpha) * texture2D(u_Texture, vec2(1.0, 1.0) - gl_PointCoord);
+        gl_FragColor = color;
+      }
+    `,
     cameraHeight = 50,
     radius = 10,
     minParticleSize = 1,
@@ -29,6 +48,10 @@ class Logo {
     minFreeFrame = 180,
     maxFreeFrame = 300
   }) {
+    if (!vertexShader || !fragmentShader) {
+      throw new Error('Please, provide both vertexShader and fragmentShader to Logo.');
+    }
+
     this.element = element;
     this.cfg = {
       cameraHeight,
@@ -76,8 +99,8 @@ class Logo {
           value: new THREE.TextureLoader().load(particle)
         }
       },
-      vertexShader: document.getElementById('vertexShader').textContent,
-      fragmentShader: document.getElementById('fragmentShader').textContent,
+      vertexShader,
+      fragmentShader,
       transparent: true
     });
 
@@ -258,8 +281,8 @@ class Logo {
   }
 
   onResize() {
-    this.height = window.innerHeight;
-    this.width = window.innerWidth;
+    this.height = this.element.parentNode.clientHeight;
+    this.width = this.element.parentNode.clientWidth;
     this.aspect = this.width / this.height;
     const camera = this.camera;
     camera.position.z = this.cfg.cameraHeight;

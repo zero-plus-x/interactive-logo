@@ -1,23 +1,28 @@
 {
-  "name": "zeroplusx",
-  "version": "1.0.0",
-  "description": "0+x interactive logo.",
-  "main": "index.js",
+  "name": "@zero-plus-x/logo",
+  "version": "0.1.0",
+  "description": "0+X interactive logo.",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "lint": "gulp lint",
+    "test": "npm run lint",
     "start": "NODE_ENV=development gulp",
-    "build": "NODE_ENV=production gulp build"
+    "buildGlobal": "DISTRIBUTION=global npm run build",
+    "build": "gulp clean && NODE_ENV=production gulp build",
+    "prepublish": "npm test && npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://<%= project.repo %>.git"
-  },
+  "repository": "zero-plus-x/interactive-logo",
   "keywords": [
-    "webgl, logo"
+    "webgl",
+    "logo",
+    "zero-plus-x",
+    "0+X"
   ],
   "homepage": "http://0x.se",
   "license": "UNLICENSED",
-  "private": true,
   "devDependencies": {
     "autoprefixer": "^6.3.6",
     "babel-core": "^6.7.5",
@@ -37,25 +42,19 @@
     "gulp-cached": "^1.1.0",
     "gulp-eslint": "^3.0.1",
     "gulp-html5-lint": "^1.1.0",
-    "gulp-if": "^2.0.0",
     "gulp-load-plugins": "^1.2.2",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
-    "gulp-remember": "^0.3.1",
     "gulp-sass-lint": "^1.1.1",
     "gulp-util": "^3.0.7",
-    "gulp-watch": "^4.3.5",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.15.0",
     "node-sass": "^3.7.0",
     "postcss-loader": "^0.13.0",
     "resolve-url-loader": "^1.4.3",
-    "run-sequence": "^1.1.5",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
     "webpack": "^2.1.0-beta.5",
     "webpack-dev-server": "^2.1.0-beta.8"
   },

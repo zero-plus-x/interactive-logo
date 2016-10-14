@@ -10,7 +10,6 @@
 </head>
 
 <body>
-  <div class="js-zeroback"></div>
   <div class="js-zerologo"></div>
   <div class="js-options"></div>
 
@@ -35,5 +34,21 @@
 		}
 	</script>
 
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', function() {
+      var Logo = window.zeroplusx_Logo;
+      var Controls = window.zeroplusx_Controls;
+
+      if (Logo && Controls) {
+        var logoEl = document.querySelector('.js-zerologo');
+        var logo = new Logo(logoEl, {
+          vertexShader: document.getElementById('vertexShader').textContent,
+          fragmentShader: document.getElementById('fragmentShader').textContent
+        });
+        var controlsEl = document.querySelector('.js-options');
+        var controls = new Controls(controlsEl, logo);
+      }
+    });
+  </script>
 </body>
 </html>
