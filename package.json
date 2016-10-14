@@ -1,6 +1,6 @@
 {
   "name": "@zero-plus-x/logo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "0+X interactive logo.",
   "main": "dist/index.js",
   "files": [
