@@ -24,6 +24,9 @@ const logo = new Logo(logoContainer, options);
 // (optional) render controls to tweak how logo should look
 const controlsContainer = document.getElementById('controls-container');
 const controls = new Controls(controlsContainer, logo);
+
+// destroy logo if it's not needed anymore
+logo.destroy();
 ```
 
 ## Logo options

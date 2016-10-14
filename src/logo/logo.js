@@ -109,6 +109,9 @@ class Logo {
     this.camera = new THREE.PerspectiveCamera(75, this.aspect, 0.1, 1000);
     this.renderer = new THREE.WebGLRenderer({alpha: true});
 
+    this.onResize = this.onResize.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+
     this.onResize();
     this.appendToDom();
     this.addFreeParticles();
@@ -118,6 +121,10 @@ class Logo {
 
   appendToDom() {
     this.element.appendChild(this.renderer.domElement);
+  }
+
+  removeFromDom() {
+    this.element.removeChild(this.renderer.domElement);
   }
 
   load() {
@@ -238,14 +245,13 @@ class Logo {
   }
 
   subscribeEvents() {
-    window.addEventListener('resize', this.onResize.bind(this));
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('mousemove', this.onMouseMove);
+  }
 
-    window.addEventListener('mousemove', (event) => {
-      const clientX = event.clientX;
-      const clientY = event.clientY;
-      this.mouse.x = ((clientX / this.width) * 2 - 1) * this.vWidth / 2;
-      this.mouse.y = (-(clientY / this.height) * 2 + 1) * this.vHeight / 2;
-    });
+  unsubscribeEvents() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('mousemove', this.onMouseMove);
   }
 
   onReset() {
@@ -292,6 +298,19 @@ class Logo {
     const vFOV = camera.fov * Math.PI / 180;
     this.vHeight = 2 * Math.tan(vFOV / 2) * camera.position.z;
     this.vWidth = this.vHeight * this.aspect;
+  }
+
+  onMouseMove(event) {
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+    this.mouse.x = ((clientX / this.width) * 2 - 1) * this.vWidth / 2;
+    this.mouse.y = (-(clientY / this.height) * 2 + 1) * this.vHeight / 2;
+  }
+
+  destroy() {
+    // TODO check if need to destroy something in Three.js created objects
+    this.unsubscribeEvents();
+    this.removeFromDom();
   }
 }
 
